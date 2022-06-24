@@ -28,15 +28,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
             ""id"": ""e7606444-ea5f-4fa1-99bf-77a57e062ff1"",
             ""actions"": [
                 {
-                    ""name"": ""Sneak"",
-                    ""type"": ""Button"",
-                    ""id"": ""e7b2afc0-a3df-4c93-a214-3bcbe5c35838"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Walk"",
                     ""type"": ""Button"",
                     ""id"": ""c0744c65-41b1-4db6-865f-cc05d49beb30"",
@@ -56,17 +47,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""8b8ef09d-27f9-4a24-b326-a28a31709fd4"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sneak"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""a430950f-5d0f-4f82-9e45-5ecf552759f8"",
@@ -108,7 +88,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
 }");
         // Default
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
-        m_Default_Sneak = m_Default.FindAction("Sneak", throwIfNotFound: true);
         m_Default_Walk = m_Default.FindAction("Walk", throwIfNotFound: true);
         m_Default_Run = m_Default.FindAction("Run", throwIfNotFound: true);
     }
@@ -170,14 +149,12 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     // Default
     private readonly InputActionMap m_Default;
     private IDefaultActions m_DefaultActionsCallbackInterface;
-    private readonly InputAction m_Default_Sneak;
     private readonly InputAction m_Default_Walk;
     private readonly InputAction m_Default_Run;
     public struct DefaultActions
     {
         private @InputControls m_Wrapper;
         public DefaultActions(@InputControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Sneak => m_Wrapper.m_Default_Sneak;
         public InputAction @Walk => m_Wrapper.m_Default_Walk;
         public InputAction @Run => m_Wrapper.m_Default_Run;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
@@ -189,9 +166,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_DefaultActionsCallbackInterface != null)
             {
-                @Sneak.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnSneak;
-                @Sneak.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnSneak;
-                @Sneak.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnSneak;
                 @Walk.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnWalk;
                 @Walk.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnWalk;
                 @Walk.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnWalk;
@@ -202,9 +176,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
             m_Wrapper.m_DefaultActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Sneak.started += instance.OnSneak;
-                @Sneak.performed += instance.OnSneak;
-                @Sneak.canceled += instance.OnSneak;
                 @Walk.started += instance.OnWalk;
                 @Walk.performed += instance.OnWalk;
                 @Walk.canceled += instance.OnWalk;
@@ -226,7 +197,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     }
     public interface IDefaultActions
     {
-        void OnSneak(InputAction.CallbackContext context);
         void OnWalk(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
     }

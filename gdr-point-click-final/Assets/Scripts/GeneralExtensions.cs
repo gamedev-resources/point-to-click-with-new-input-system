@@ -8,5 +8,5 @@ using UnityEngine;
 
 public static class GeneralExtensions
 {
-    public static Vector3 WithNewY(this Vector3 vector, float newY) => new Vector3(vector.x, newY);
+    public static Vector3 WithNewY(this Vector3 vector, float newY) => new Vector3(vector.x, newY, vector.z);
 }
