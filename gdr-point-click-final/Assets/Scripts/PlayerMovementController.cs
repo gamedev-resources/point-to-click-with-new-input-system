@@ -75,7 +75,8 @@ public class PlayerMovementController : MonoBehaviour
 
             if (Vector3.Dot(_direction, transform.forward) >= .99f)
             {
-                StartNavigation(_moveTarget);
+                _agent.SetDestination(_moveTarget);
+                AnimationController.Instance.CurrentState = CurrentMovement;
 
                 _needToRotate = false;
             }
@@ -92,6 +93,7 @@ public class PlayerMovementController : MonoBehaviour
     private void Run(CallbackContext context)
     {
         CurrentMovement = MovementStates.Run;
+        AnimationController.Instance.CurrentState = CurrentMovement;
     }
 
     /// <summary>
@@ -125,22 +127,10 @@ public class PlayerMovementController : MonoBehaviour
 
                 if (IsNavigating && Vector3.Dot(_direction, transform.forward) >= 0.25f)
                 {
-                    StartNavigation(_moveTarget);
+                    _agent.SetDestination(_moveTarget);
                 }
             }
         }
-    }
-
-    /// <summary>
-    /// Start moving the player
-    /// </summary>
-    /// <param name="destination">Closest allowed position to where the player clicked</param>
-    private void StartNavigation(Vector3 destination)
-    {
-        AnimationController.Instance.CurrentState = CurrentMovement;
-
-        _agent.SetDestination(destination);
-
     }
 
     /// <summary>
